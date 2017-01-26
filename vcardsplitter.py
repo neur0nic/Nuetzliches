@@ -52,12 +52,24 @@ def CutCard(Card, j):
     #print("geschafft1")
 
     # Card Schreiben
-    NEWFILENAME = Text[Titel] + '.vcf'
+    #Name = int(len(Text[Titel]) - 3) * "X"
+    Name = ""
+    XTitel = Text[Titel]
+    #print(XTitel)
+    for i in range(3, len(XTitel)):
+        if " " in XTitel[i]:
+            Name += "_"
+        elif i is (len(XTitel) - 1):
+            Name += ".vcf"
+        else:
+            Name += XTitel[i]
+    NEWFILENAME = str(Name)
     #print(NEWFILENAME)
     Neu = open(NEWFILENAME, "w")
     for i in range(Beginn, (Ende + 1)):
         Neu.write((Text[i]))
     Neu.close
+    print(Name)
     return(i)
 
 i = 0
