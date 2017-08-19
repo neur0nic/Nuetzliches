@@ -38,3 +38,27 @@ def scrape(url):
         code = f.read()
         htmltext = code.decode("ISO-8859-1")
     return htmltext
+
+''' Time (parts of) the program
+    Needs to be integrated into the code.
+    ddhhmmss transforms seconds in dd:hh:mm:ss format
+'''
+from time import time
+
+
+def ddhhmmss(seconds):
+    s_per_d = 86400
+    s_per_h = 3600
+    s_per_m = 60
+    d = int(seconds / s_per_d)
+    h = int((seconds % s_per_d) / s_per_h)
+    m = int(((seconds % s_per_d) % s_per_h) / s_per_m)
+    s = round((((seconds % s_per_d) % s_per_h) % s_per_m), 2)
+    return d, h, m, s
+
+start_time = time()
+
+# Put code to measure here
+
+duration = ddhhmmss((time()-start_time))
+print("--- %s d %s h %s m %s s ---" % duration)
