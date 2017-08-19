@@ -130,3 +130,74 @@ def read_passwd(username):
     except ValueError:
         pass
     return pw
+
+''' Managing passwords for users
+    Prototype for managing users
+        username        a username, str
+        password        a password, str
+'''
+import bcrypt
+from os import listdir, urandom
+import pickle
+from binascii import b2a_hex
+
+
+class LoginManager():
+
+    def register_user(self, username, password):
+        userdir, pwdir = self.__open_db()
+        if username not in userdir:
+            hashed_passwd = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
+            self.__store_password(username, hashed_passwd)
+        else:
+            print('User already exists.')
+
+    def authenticate_user(self, username, password):
+        pw = self.__read_password(username)
+        if bcrypt.checkpw(password.encode('utf-8'), pw):
+            return True
+        else:
+            return False
+
+    def __open_db(self):
+        folder = listdir("./")
+        userfile = 'user.hlst'
+        pwfile = 'pw.hlst'
+        if userfile in folder:
+            with open(userfile, 'rb') as fr: userdir = pickle.load(fr)
+        else:
+            userdir = {}
+        if pwfile in folder:
+            with open(pwfile, 'rb') as fr: pwdir = pickle.load(fr)
+        else:
+            pwdir = {}
+        return userdir, pwdir
+
+    def __store_password(self, username, hashed_passwd):
+        index = str(b2a_hex(urandom(5))).replace("""b'""", "").replace("""'""", "")
+        user = {username: index}
+        pw = {index: hashed_passwd}
+        userdir, pwdir = self.__open_db()
+        userfile = 'user.hlst'
+        pwfile = 'pw.hlst'
+
+        userdir.update(user)
+        pwdir.update(pw)
+
+        with open(userfile, 'wb') as fr: pickle.dump(userdir, fr)
+        with open(pwfile, "wb") as fr: pickle.dump(pwdir, fr)
+
+    def __read_password(self, username):
+        userfile = 'user.hlst'
+        pwfile = 'pw.hlst'
+        try:
+            with open(userfile, 'rb') as fr: userdir = pickle.load(fr)
+            with open(pwfile, 'rb') as fr: pwdir = pickle.load(fr)
+        except FileExistsError:
+            pass
+        try:
+            index = userdir[username]
+            pw = pwdir[index]
+        except ValueError:
+            pass
+        return pw
