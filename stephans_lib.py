@@ -25,3 +25,16 @@ def waittoabort():
     list = []
     abort = Thread(target=stopp, args=(list,))
     abort.start()
+
+''' Quick scrape a website
+    Can be used to download a HTML website
+        url     is the URL of the website. strdone
+'''
+from urllib.reques import urlopen
+
+
+def scrape(url):
+    with urlopen(url) as f:
+        code = f.read()
+        htmltext = code.decode("ISO-8859-1")
+    return htmltext
