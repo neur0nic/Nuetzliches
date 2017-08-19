@@ -3,7 +3,6 @@
         current     is the current point of iterations. int or float
         total       is the total amount if iteration. int or float
 '''
-from time import sleep
 from termcolor import colored
 
 
@@ -22,15 +21,20 @@ from threading import Thread
 
 
 def waittoabort():
+
+    def stopp(list):
+        input()
+        list.append(None)
+
     list = []
     abort = Thread(target=stopp, args=(list,))
     abort.start()
 
 ''' Quick scrape a website
     Can be used to download a HTML website
-        url     is the URL of the website. strdone
+        url     is the URL of the website.
 '''
-from urllib.reques import urlopen
+from urllib.request import urlopen
 
 
 def scrape(url):
@@ -62,3 +66,15 @@ start_time = time()
 
 duration = ddhhmmss((time()-start_time))
 print("--- %s d %s h %s m %s s ---" % duration)
+
+''' Little password generator
+        length      the length of the password. int
+'''
+import string
+from random import choice
+
+
+def pwgenerator(length):
+    chars = string.ascii_letters + string.digits + '!@#$%^&*()'
+    pw = (''.join(choice(chars) for i in range(length)))
+    return pw
