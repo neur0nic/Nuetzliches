@@ -78,3 +78,55 @@ def pwgenerator(length):
     chars = string.ascii_letters + string.digits + '!@#$%^&*()'
     pw = (''.join(choice(chars) for i in range(length)))
     return pw
+
+''' Store passwords and API-keys
+    Stored passwords can be dictionarys to, e.g {'CONSUMER_KEY': 'AKLSDJKJSDA', 'CONSUMER_SECRET': 'ASDKJAJSKDHUIWD'}
+    Passwords are neither encrypted nor salted. They are binary stored in plain text. 
+    Never add the files user.lst and pw.list to the repository.
+        username        the username, str
+        password        the password, str
+'''
+import pickle
+from os import urandom, listdir
+from binascii import b2a_hex
+
+
+def store_passwd(username, password):
+    userfile = 'user.lst'
+    pwfile = 'pw.lst'
+    storagedir = './'
+    index = str(b2a_hex(urandom(5))).replace("""b'""", "").replace("""'""", "")
+    files = listdir(storagedir)
+    user = {username : index}
+    pw = {index: password}
+
+    if userfile in files:
+        with open(userfile, 'rb') as fr: userdir = pickle.load(fr)
+    else:
+        userdir = {}
+    if pwfile in files:
+        with open(pwfile, 'rb') as fr: pwdir = pickle.load(fr)
+    else:
+        pwdir = {}
+
+    userdir.update(user)
+    pwdir.update(pw)
+
+    with open(userfile, 'wb') as fr: pickle.dump(userdir, fr)
+    with open(pwfile, "wb") as fr: pickle.dump(pwdir, fr)
+
+
+def read_passwd(username):
+    userfile = 'user.lst'
+    pwfile = 'pw.lst'
+    try:
+        with open(userfile, 'rb') as fr: userdir = pickle.load(fr)
+        with open(pwfile, 'rb') as fr: pwdir = pickle.load(fr)
+    except FileExistsError:
+        pass
+    try:
+        index = userdir[username]
+        pw = pwdir[index]
+    except ValueError:
+        pass
+    return pw
