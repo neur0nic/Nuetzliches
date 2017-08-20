@@ -201,3 +201,18 @@ class LoginManager():
         except ValueError:
             pass
         return pw
+    
+''' For writing an Error.log file
+    Creates a log-file with time and error message
+        Fehler      error message, str
+'''
+from time import strftime
+
+
+def addToLog(Fehler):
+    if isinstance(Fehler, str):
+        time = strftime("%Y-%m-%d: %H:%M:%S - ")
+        with open('Fehler.log', 'a') as fa: fa.write(time + Fehler)
+    else:
+        pass
+
