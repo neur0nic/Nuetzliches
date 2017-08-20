@@ -1,7 +1,6 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-""" Bla Bla Bla
-
+""" A little module for my own projects
 """
 import pip
 required_pkgs = ['termcolor', 'bcrypt']
@@ -242,16 +241,19 @@ def damn_artifacts(query):
 
 
 def test_bars():
+    print('Test: colored processbar')
     for i in range(0, 251):
         colored_bar(i, 250)
         sleep(0.05)
 
+    print('Test: ascii processbar')
     for i in range(0, 251):
         ascii_bar(i, 250)
         sleep(0.05)
 
 
 def test_scrape():
+    print('Test: scrape')
     url = 'https://www.archlinux.org'
     text = scrape(url)
     start = text.find('<title>') + 7
@@ -260,6 +262,7 @@ def test_scrape():
 
 
 def test_ddhhmmss():
+    print('Test: convert duration into human readable form')
     start_time = time()
     sleep(5)
     duration = ddhhmmss((time() - start_time))
@@ -267,11 +270,13 @@ def test_ddhhmmss():
 
 
 def test_passwd():
+    print('Test: passwordgenerator')
     x = pwgenerator(15)
     print('Generated password: %s' % x)
 
 
 def test_pwstorage():
+    print('Test: save and store password')
     pws = PwStorage()
     pws.store_passwd(username='testuser', password={'ACCESS_TOKEN': 'testpasswd'})
     print(pws.read_passwd(username='testuser')['ACCESS_TOKEN'])
@@ -280,6 +285,7 @@ def test_pwstorage():
 
 
 def test_loginmngr():
+    print('Test: loginmanager')
     lmngr = LoginManager()
     lmngr.register_user(username='testuser', password='testpasswd')
     print(lmngr.authenticate_user(username='testuser', password='testpasswd'))
@@ -288,23 +294,27 @@ def test_loginmngr():
 
 
 def test_error():
+    print('Test: store error message')
     add_to_log('Test Error')
-    with open('Error.log', 'r') as f: msg = f.readlines()
-    for i in msg: print(i)
+    with open('Error.log', 'r') as f:
+        msg = f.readlines()
+    for i in msg:
+        print(i)
     remove('Error.log')
 
 
 def test_damnartifacts():
+    print('Test: removing artifacts from string')
     print(damn_artifacts('LÃ¶wenbrÃ¤u'))
 
 
 if __name__ == '__main__':
-    # test_bars()
-    # test_scrape()
-    # test_ddhhmmss()
-    # test_passwd()
-    # test_pwstorage()
-    # test_loginmngr()
-    # test_error()
-    # test_damnartifacts()
+    test_bars()
+    test_scrape()
+    test_ddhhmmss()
+    test_passwd()
+    test_pwstorage()
+    test_loginmngr()
+    test_error()
+    test_damnartifacts()
     pass
