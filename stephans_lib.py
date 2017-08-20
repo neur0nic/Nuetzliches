@@ -216,3 +216,14 @@ def addToLog(Fehler):
     else:
         pass
 
+'''
+'''
+
+def damn_artifacts(query)
+    z = query.replace('Ã¤', 'ä').replace('Ã¼', 'ü').replace('Ã¶', 'ö').replace('Ã', 'ß').replace('â', '’') \
+        .replace('Ã©', 'é').replace('Ã§', 'ç').replace('Ã¸', 'ø').replace('Ã¥', 'å').replace('Ã', 'Ü') \
+        .replace('Ã', 'Ä').replace('Ã', 'Ö').replace('Ã¨', 'è').replace('Â½', '½').replace('Ã´', 'ô') \
+        .replace('Ã²', 'ò').replace('Ãª', 'ê').replace('Â´', '´').replace('Ã«', 'ë').replace('Ã®', 'î') \
+        .replace('Ã¹', 'ù').replace('Ã', 'Ø').replace('Ã ', 'à').replace('Ã¢', 'â').replace('Ã ', 'à') \
+        .replace('Ã³', 'ó').replace('Ã¯', 'ï').replace('Ãº', 'ú').replace('Ã', 'É').replace('Ã', 'Ò')
+    return z    
